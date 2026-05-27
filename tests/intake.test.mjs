@@ -112,3 +112,12 @@ test('Book a call nav hover stays subtle instead of turning black', () => {
   assert.match(hoverRule, /color:var\(--accent-deep\)/);
   assert.doesNotMatch(hoverRule, /background:var\(--ink\)/);
 });
+
+test('mobile hero uses editorial split with portrait near headline', () => {
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+
+  assert.match(html, /class="eyebrow hero-kicker reveal"/);
+  assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.hero-grid\{grid-template-columns:minmax\(0,1fr\) 96px/);
+  assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.hero-photo\{grid-column:2;grid-row:1 \/ span 2/);
+  assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.hero-sub,\s*\.hero-actions\{grid-column:1 \/ -1/);
+});
