@@ -103,3 +103,12 @@ test('Artana Bio links navigate directly to artana.bio', () => {
     assert.doesNotMatch(link, /\srel=/);
   }
 });
+
+test('Book a call nav hover stays subtle instead of turning black', () => {
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const hoverRule = html.match(/\.nav-cta:hover\{[^}]+\}/)?.[0] || '';
+
+  assert.match(hoverRule, /background:var\(--accent-soft\)/);
+  assert.match(hoverRule, /color:var\(--accent-deep\)/);
+  assert.doesNotMatch(hoverRule, /background:var\(--ink\)/);
+});
