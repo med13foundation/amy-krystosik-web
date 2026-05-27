@@ -121,3 +121,12 @@ test('mobile hero uses editorial split with portrait near headline', () => {
   assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.hero-photo\{grid-column:2;grid-row:1 \/ span 2/);
   assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.hero-sub,\s*\.hero-actions\{grid-column:1 \/ -1/);
 });
+
+test('tablet hero keeps portrait alongside the copy', () => {
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const tabletRule = html.match(/@media\(max-width:840px\)\{[\s\S]*?\}\n/)?.[0] || '';
+
+  assert.match(tabletRule, /\.hero-grid\{grid-template-columns:minmax\(0,1fr\) 128px/);
+  assert.match(tabletRule, /\.hero-photo\{grid-column:2;grid-row:1 \/ span 4/);
+  assert.doesNotMatch(tabletRule, /\.hero-grid\{grid-template-columns:1fr/);
+});
