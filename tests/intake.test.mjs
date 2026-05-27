@@ -90,3 +90,16 @@ test('form submit navigates to the prefilled Calendly URL', () => {
   assert.equal(`${url.origin}${url.pathname}`, 'https://calendly.com/amykrystosik/30min');
   assert.equal(url.searchParams.get('name'), 'Test Person');
 });
+
+test('Artana Bio links navigate directly to artana.bio', () => {
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const artanaLinks = [...html.matchAll(/<a [^>]*href="https:\/\/artana\.bio"[^>]*>/g)].map(
+    (match) => match[0],
+  );
+
+  assert.equal(artanaLinks.length, 2);
+  for (const link of artanaLinks) {
+    assert.doesNotMatch(link, /\starget=/);
+    assert.doesNotMatch(link, /\srel=/);
+  }
+});
